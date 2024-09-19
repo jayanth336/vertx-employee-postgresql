@@ -36,13 +36,14 @@ public class MainVerticle extends AbstractVerticle {
 
 //  Use the router instance and generate routes
     Route getAll = router.get("/employees")
+      // Handler -> it handles the request from REST client and provides a response
       .handler(routingContext -> {
         HttpServerResponse response = routingContext.response();
         employeeService.getEmployees().onComplete(res -> {
           if(res.succeeded()) {
             response
               .putHeader("content-type", "application/json")
-              .end(new JsonArray(res.result()).encodePrettily()); //convert from List<JsonObject> to JsonArray
+              .end(new JsonArray(res.result()).encodePrettily()); //convert from List<JsonObject> to String through JsonArray
           } else response.setStatusCode(500).end(res.cause().getMessage());
         });
       });
@@ -68,7 +69,7 @@ public class MainVerticle extends AbstractVerticle {
         employeeService.addEmployee(employee).onComplete(res -> {
           response
             .putHeader("content-type", "application/json")
-            .end(JsonObject.mapFrom(res.result()).encodePrettily()); //Convert from Employee to JsonObject
+            .end(JsonObject.mapFrom(res.result()).encodePrettily()); //Convert from Employee to String through JsonObject
         });
       });
 

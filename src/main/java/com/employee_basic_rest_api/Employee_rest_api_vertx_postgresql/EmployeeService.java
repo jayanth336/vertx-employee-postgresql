@@ -47,7 +47,7 @@ public class EmployeeService {
     Promise<JsonObject> promise = Promise.promise();
     jdbcClient.getConnection(ar -> {
       if(ar.succeeded()) {
-//      If we are going to use something from the method parameter, the go with queryWithParams() instead of query()
+//      If we are going to use something from the method parameter, then go with queryWithParams() instead of query()
         ar.result().queryWithParams("select * from employee where id = ?",
           new JsonArray().add(id),
           res -> {
@@ -66,6 +66,7 @@ public class EmployeeService {
     Promise<Employee> promise = Promise.promise();
     jdbcClient.getConnection(ar -> {
       if(ar.succeeded()) {
+//      If we are going to use something from the method parameter, then go with queryWithParams() instead of query()
         ar.result().queryWithParams("insert into employee(name, email) values(?, ?)",
           new JsonArray().add(employee.getName()).add(employee.getEmail()),
           res -> {
